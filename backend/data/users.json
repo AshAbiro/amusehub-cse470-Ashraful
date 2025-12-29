@@ -5,5 +5,12 @@
     "email": "client@test.com",
     "password": "$2b$10$UVwRYXal3SHl2zqBInQNEu2aDej.cAg1B/gvixd3tug7hurKCmegu",
     "role": "client"
+  },
+  {
+    "id": "1767039938947",
+    "name": "Test Admin",
+    "email": "admin@test.com",
+    "password": "$2b$10$0dxYfl3lUnTD2k4lxUxL0e8hbW2lGUfo/yXdk12chgTjJ.xjuwNFq",
+    "role": "admin"
   }
 ]

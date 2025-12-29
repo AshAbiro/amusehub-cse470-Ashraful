@@ -57,7 +57,7 @@ function App() {
     setMessage('');
   };
 
-  // 🚀 NEW BOOKING FUNCTIONS
+  // 🚀 CLIENT BOOKINGS
   const handleBooking = async () => {
     const type = (document.getElementById('bookingType') as HTMLSelectElement).value;
     const details = (document.getElementById('bookingDetails') as HTMLInputElement).value;
@@ -96,6 +96,24 @@ function App() {
     }
   };
 
+  // 🚀 ADMIN BOOKINGS
+  const fetchAdminBookings = async () => {
+    try {
+      const res = await axios.get(`${API_BASE}/admin/bookings`);
+      const adminList = document.getElementById('adminBookingsList')!;
+      adminList.innerHTML = `
+        <div className="message">
+          <h4>Total Bookings: ${res.data.length}</h4>
+          ${res.data.map((b: any) => 
+            `<p><strong>${b.userName}</strong> - ${b.type.toUpperCase()}: ${b.details} (${b.slots} slots) - ${new Date(b.date).toLocaleString()}</p>`
+          ).join('')}
+        </div>
+      `;
+    } catch (err) {
+      document.getElementById('adminBookingsList')!.innerHTML = '<p>No admin data</p>';
+    }
+  };
+
   if (view === 'dashboard' && user) {
     return (
       <div className="App">
@@ -109,6 +127,11 @@ function App() {
           {user.role === 'admin' && (
             <>
               <h3>👑 Admin Panel</h3>
+              <div className="form">
+                <h4>📊 All Bookings</h4>
+                <button className="btn" onClick={fetchAdminBookings}>View All Bookings</button>
+              </div>
+              <div id="adminBookingsList"></div>
               <button onClick={logout} className="logout-btn">🚪 Logout</button>
             </>
           )}
@@ -123,7 +146,6 @@ function App() {
           {user.role === 'client' && (
             <>
               <h3>🎫 Client Portal</h3>
-              
               <div className="form">
                 <h4>Book Tickets/Rooms/Parking</h4>
                 <select id="bookingType" className="input">
@@ -135,7 +157,6 @@ function App() {
                 <input id="bookingSlots" type="number" placeholder="Slots (1-10)" min="1" max="10" className="input"/>
                 <button className="btn" onClick={handleBooking}>Book Now 🎫</button>
               </div>
-              
               <div id="bookingsList"></div>
               <button onClick={logout} className="logout-btn">🚪 Logout</button>
             </>
