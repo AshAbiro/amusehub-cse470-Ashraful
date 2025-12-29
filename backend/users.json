@@ -1,0 +1,9 @@
+[
+  {
+    "id": "1767027992540",
+    "name": "Test Client",
+    "email": "test@example.com",
+    "password": "$2b$10$Lz3PCI2ilRDGkmSgUzcjeeesHK5FsEC2x2s8FysL/sdvS0BN3KXdG",
+    "role": "client"
+  }
+]
