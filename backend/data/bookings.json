@@ -1,0 +1,11 @@
+[
+  {
+    "id": "1767039537166",
+    "userEmail": "client@test.com",
+    "type": "ticket",
+    "details": "Roller Coaster x2",
+    "slots": 2,
+    "date": "2025-12-29T20:18:57.166Z",
+    "status": "confirmed"
+  }
+]

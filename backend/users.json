@@ -5,5 +5,19 @@
     "email": "test@example.com",
     "password": "$2b$10$Lz3PCI2ilRDGkmSgUzcjeeesHK5FsEC2x2s8FysL/sdvS0BN3KXdG",
     "role": "client"
+  },
+  {
+    "id": "1767037554574",
+    "name": "Test Admin",
+    "email": "admin@test.com",
+    "password": "$2b$10$Vp00ISbvZfCgJoHTOjzEiuEFBWSgIo1UuNkMPMN3m/MzDZ0SN1Kli",
+    "role": "admin"
+  },
+  {
+    "id": "1767039133943",
+    "name": "Test Client",
+    "email": "client@test.com",
+    "password": "$2b$10$6sB1LUt/T/E5bUB5nX88U.cPC88Uh26iNnATCSJd6u8M3te82Qww2",
+    "role": "client"
   }
 ]

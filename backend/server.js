@@ -11,7 +11,8 @@ const PORT = 5000;
 app.use(cors());
 app.use(express.json());
 
-const USERS_FILE = path.join(__dirname, 'users.json');
+const USERS_FILE = path.join(__dirname, 'data/users.json');
+const BOOKINGS_FILE = path.join(__dirname, 'data/bookings.json');
 
 // Load users from JSON file
 async function loadUsers() {
@@ -25,7 +26,24 @@ async function loadUsers() {
 
 // Save users to JSON file
 async function saveUsers(users) {
+  await fs.mkdir(path.dirname(USERS_FILE), { recursive: true });
   await fs.writeFile(USERS_FILE, JSON.stringify(users, null, 2));
+}
+
+// Load bookings from JSON file
+async function loadBookings() {
+  try {
+    const data = await fs.readFile(BOOKINGS_FILE, 'utf8');
+    return JSON.parse(data);
+  } catch {
+    return [];
+  }
+}
+
+// Save bookings to JSON file
+async function saveBookings(bookings) {
+  await fs.mkdir(path.dirname(BOOKINGS_FILE), { recursive: true });
+  await fs.writeFile(BOOKINGS_FILE, JSON.stringify(bookings, null, 2));
 }
 
 // Routes
@@ -92,9 +110,39 @@ app.post('/api/auth/login', async (req, res) => {
   }
 });
 
+// GET /api/bookings - List all bookings
+app.get('/api/bookings', async (req, res) => {
+  const bookings = await loadBookings();
+  res.json(bookings);
+});
+
+// POST /api/bookings - Create booking
+app.post('/api/bookings', async (req, res) => {
+  try {
+    const { userEmail, type, details, slots } = req.body;
+    const bookings = await loadBookings();
+    const booking = {
+      id: Date.now().toString(),
+      userEmail,
+      type,
+      details,
+      slots: slots || 1,
+      date: new Date().toISOString(),
+      status: "confirmed"
+    };
+    bookings.push(booking);
+    await saveBookings(bookings);
+    res.json({ message: '🎫 Booking confirmed!', booking });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Booking failed' });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
   console.log(`📱 Test: http://localhost:${PORT}/`);
   console.log(`🔑 Register: POST /api/auth/register`);
   console.log(`🔐 Login: POST /api/auth/login`);
+  console.log(`🎫 Bookings: GET/POST /api/bookings`);
 });
